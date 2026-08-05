@@ -1,14 +1,19 @@
-{ ... }:
+{ pkgs, ... }:
 {
-  programs.gh = {
-    enable = true;
-    settings = {
-      git_protocol = "https";
-      prompt = "enabled";
-    };
+  home.packages = with pkgs; [ gh ];
 
-    gitCredentialHelper = {
-      enable = true;
+  programs.git.settings.credential = {
+    "https://github.com" = {
+      helper = [
+        ""
+        "${pkgs.gh}/bin/gh auth git-credential"
+      ];
+    };
+    "https://gist.github.com" = {
+      helper = [
+        ""
+        "${pkgs.gh}/bin/gh auth git-credential"
+      ];
     };
   };
 }

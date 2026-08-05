@@ -20,5 +20,8 @@
     ./modules/fzf.nix
     ./modules/zoxide.nix
     ./modules/neovim.nix
+    ./modules/git.nix
+    ./modules/gh.nix
   ];
 }
+

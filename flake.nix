@@ -10,23 +10,24 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager }: 
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-  in
-  {
-    homeConfigurations."root" = 
-      home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          ./home.nix
-          {
-            home.username = "root";
-            home.homeDirectory = "/root";
-            home.stateVersion = "26.05";
-          }
-        ];
-     };
-  }; 
+  outputs =
+    { self, nixpkgs, home-manager }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
+    {
+      homeConfigurations."popododo0720" =
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home.nix
+            {
+              home.username = "popododo0720";
+              home.homeDirectory = "/home/popododo0720";
+              home.stateVersion = "26.05";
+            }
+          ];
+        };
+    };
 }

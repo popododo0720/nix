@@ -1,12 +1,17 @@
-{ pkgs, ... }:
+{ ... }:
 {
   targets.genericLinux.enable = true;
 
-  home.packages = with pkgs; [
-    ripgrep
-    fzf
-    zoxide
-  ];
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+  };
 
-  programs.bash.enable = true;
+  imports = [
+    ./modules/aliases.nix
+    ./modules/packages.nix
+    ./modules/fzf.nix
+    ./modules/zoxide.nix
+    ./modules/neovim.nix
+  ];
 }

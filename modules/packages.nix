@@ -8,5 +8,8 @@
     jq
     yq-go
     tmux
+    btop
+    lazygit
   ];
 }
+

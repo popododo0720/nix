@@ -10,6 +10,12 @@
     tmux
     btop
     lazygit
+    nil
+    nixfmt-rfc-style
+    lua-language-server
+    pyright
+    yaml-language-server
+    bash-language-server
+    marksman
   ];
 }
-

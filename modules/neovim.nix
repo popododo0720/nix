@@ -24,7 +24,7 @@ in
     neovim
   ];
 
-  xdg.configFile."nvim/init.lua".source = ../nvim/init.lua;
+  xdg.configFile."nvim/init.lua".source = ../config/nvim/init.lua;
 
   xdg.dataFile."nvim/site/pack/nix/start/nvim-treesitter".source = ts;
   xdg.dataFile."nvim/site/pack/nix/start/blink-cmp".source = pkgs.vimPlugins.blink-cmp;

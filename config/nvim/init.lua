@@ -9,7 +9,8 @@ vim.opt.smartcase = true
 
 local on_ssh = (vim.env.SSH_CONNECTION ~= nil) or (vim.env.SSH_TTY ~= nil)
 if on_ssh then
-  vim.opt.clipboard = "osc52"
+  vim.g.clipboard = "osc52"
+  vim.opt.clipboard = "unnamedplus"
   vim.opt.termguicolors = false
 else
   vim.opt.clipboard = "unnamedplus"

@@ -1,3 +1,4 @@
+vim.o.background = "dark"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.expandtab = true
@@ -5,10 +6,31 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.clipboard = "unnamedplus"
-vim.opt.termguicolors = true
+
+local on_ssh = (vim.env.SSH_CONNECTION ~= nil) or (vim.env.SSH_TTY ~= nil)
+if on_ssh then
+  vim.opt.clipboard = ""
+  vim.opt.termguicolors = false
+else
+  vim.opt.clipboard = "unnamedplus"
+  vim.opt.termguicolors = true
+end
+
 vim.opt.updatetime = 300
 vim.opt.shortmess:append("I")
+vim.opt.showcmd = false
+vim.opt.title = false
+
+vim.api.nvim_create_autocmd("UIEnter", {
+  once = true,
+  callback = function()
+    for _, ms in ipairs({ 10, 100, 300, 600, 1200 }) do
+      vim.defer_fn(function()
+        pcall(vim.cmd, "redraw!")
+      end, ms)
+    end
+  end,
+})
 
 vim.opt.grepprg = "rg --vimgrep --smart-case"
 vim.opt.grepformat = "%f:%l:%c:%m"

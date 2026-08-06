@@ -7,7 +7,6 @@
     eza
     jq
     yq-go
-    tmux
     btop
     lazygit
     nil

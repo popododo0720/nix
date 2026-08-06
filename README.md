@@ -20,7 +20,7 @@ cd ~/nix-home
 ## apply
 ```
 nix run home-manager -- switch -b backup --flake .#popododo0720
-source ~/.bashrc
+exec bash -l
 ```
 
 

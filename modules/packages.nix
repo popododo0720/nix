@@ -16,5 +16,6 @@
     yaml-language-server
     bash-language-server
     marksman
+    wget
   ];
 }

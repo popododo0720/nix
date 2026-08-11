@@ -8,9 +8,19 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 local on_ssh = (vim.env.SSH_CONNECTION ~= nil) or (vim.env.SSH_TTY ~= nil)
+
 if on_ssh then
-  vim.g.clipboard = "osc52"
-  vim.opt.clipboard = "unnamedplus"
+  local termfeatures = vim.g.termfeatures or {}
+  termfeatures.osc52 = false
+  vim.g.termfeatures = termfeatures
+
+  if vim.env.DISPLAY ~= nil and vim.env.DISPLAY ~= "" then
+    vim.g.clipboard = "xsel"
+    vim.opt.clipboard = "unnamedplus"
+  else
+    vim.opt.clipboard = ""
+  end
+
   vim.opt.termguicolors = false
 else
   vim.opt.clipboard = "unnamedplus"

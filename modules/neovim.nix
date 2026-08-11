@@ -22,6 +22,7 @@ in
 {
   home.packages = with pkgs; [
     neovim
+    xsel
   ];
 
   xdg.configFile."nvim/init.lua".source = ../config/nvim/init.lua;

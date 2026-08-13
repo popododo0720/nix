@@ -17,6 +17,7 @@ let
       html
       css
       hcl
+      terraform
     ]
   );
 in

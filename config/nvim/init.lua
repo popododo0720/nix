@@ -50,6 +50,57 @@ vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
 vim.g.mapleader = " "
 
+-- ansiblels only attaches to yaml.ansible, never plain yaml.
+-- terraform-ls wants terraform / terraform-vars (empty *.tf can be detected as TinyFugue).
+local function detect_ansible(path, bufnr)
+  path = path or ""
+  if path:find("/playbooks/")
+    or path:find("/group_vars/")
+    or path:find("/host_vars/")
+    or path:find("/roles/.+/tasks/")
+    or path:find("/roles/.+/handlers/")
+    or path:find("/roles/.+/defaults/")
+    or path:find("/roles/.+/vars/")
+    or path:find("/roles/.+/meta/")
+    or path:find("/inventory/.+%.yml$")
+    or path:find("/inventory/.+%.yaml$")
+    or path:find("/ansible/.+%.yml$")
+    or path:find("/ansible/.+%.yaml$")
+  then
+    return "yaml.ansible"
+  end
+  local base = path:match("([^/]+)$") or ""
+  if base == "site.yml" or base == "site.yaml" or base:find("playbook", 1, true) then
+    return "yaml.ansible"
+  end
+  if not bufnr then
+    return nil
+  end
+  local ok, lines = pcall(vim.api.nvim_buf_get_lines, bufnr, 0, 80, false)
+  if not ok then
+    return nil
+  end
+  local text = table.concat(lines, "\n")
+  if text:find("ansible%.[%w_]+%.")
+    or text:find("\n%- hosts:")
+    or text:find("^%- hosts:")
+    or text:find("\ngather_facts:")
+  then
+    return "yaml.ansible"
+  end
+end
+
+vim.filetype.add({
+  extension = {
+    tf = "terraform",
+    tfvars = "terraform-vars",
+  },
+  pattern = {
+    [".*%.yml"] = detect_ansible,
+    [".*%.yaml"] = detect_ansible,
+  },
+})
+
 local function fzf_open()
   if vim.fn.executable("fzf") == 0 then
     vim.notify("fzf not found in PATH", vim.log.levels.ERROR)
@@ -135,8 +186,15 @@ local capabilities = nil
 local blink_ok, blink = pcall(require, "blink.cmp")
 if blink_ok then
   blink.setup({
-    keymap = { preset = "default" },
+    keymap = {
+      preset = "enter",
+      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+    },
     appearance = { nerd_font_variant = "mono" },
+    completion = {
+      documentation = { auto_show = true, auto_show_delay_ms = 150 },
+    },
     sources = {
       default = { "lsp", "path", "buffer" },
     },
@@ -158,8 +216,22 @@ local servers = {
   yamlls = {},
   bashls = {},
   marksman = {},
-  terraformls = {},
-  ansiblels = {},
+  terraformls = {
+    root_markers = { ".terraform", ".terraform.lock.hcl", ".git" },
+  },
+  ansiblels = {
+    root_markers = { "ansible.cfg", ".ansible-lint", ".git" },
+    settings = {
+      ansible = {
+        python = { interpreterPath = "python3" },
+        ansible = { path = "ansible" },
+        validation = {
+          enabled = true,
+          lint = { enabled = true, path = "ansible-lint" },
+        },
+      },
+    },
+  },
 }
 
 if vim.lsp.config then
@@ -190,8 +262,8 @@ pcall(function()
   lint.linters_by_ft = {
     yaml = { "yamllint" },
     terraform = { "tflint" },
-    tf = { "tflint" },
-    ansible = { "ansible_lint" },
+    ["terraform-vars"] = { "tflint" },
+    ["yaml.ansible"] = { "ansible_lint" },
   }
   vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
     callback = function()

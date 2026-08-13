@@ -30,6 +30,7 @@
     procps
     terraform-ls
     tflint
+    ansible
     ansible-language-server
     ansible-lint
   ];

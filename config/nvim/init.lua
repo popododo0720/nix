@@ -158,6 +158,8 @@ local servers = {
   yamlls = {},
   bashls = {},
   marksman = {},
+  terraformls = {},
+  ansiblels = {},
 }
 
 if vim.lsp.config then
@@ -182,3 +184,18 @@ else
     end
   end
 end
+
+pcall(function()
+  local lint = require("lint")
+  lint.linters_by_ft = {
+    yaml = { "yamllint" },
+    terraform = { "tflint" },
+    tf = { "tflint" },
+    ansible = { "ansible_lint" },
+  }
+  vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+    callback = function()
+      lint.try_lint()
+    end,
+  })
+end)

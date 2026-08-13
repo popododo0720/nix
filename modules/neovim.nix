@@ -16,6 +16,7 @@ let
       toml
       html
       css
+      hcl
     ]
   );
 in
@@ -30,6 +31,7 @@ in
   xdg.dataFile."nvim/site/pack/nix/start/nvim-treesitter".source = ts;
   xdg.dataFile."nvim/site/pack/nix/start/blink-cmp".source = pkgs.vimPlugins.blink-cmp;
   xdg.dataFile."nvim/site/pack/nix/start/nvim-lspconfig".source = pkgs.vimPlugins.nvim-lspconfig;
+  xdg.dataFile."nvim/site/pack/nix/start/nvim-lint".source = pkgs.vimPlugins.nvim-lint;
 
   home.sessionVariables = {
     EDITOR = "nvim";

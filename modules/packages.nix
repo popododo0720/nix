@@ -28,5 +28,9 @@
     dnsutils
     mtr
     procps
+    terraform-ls
+    tflint
+    ansible-language-server
+    ansible-lint
   ];
 }

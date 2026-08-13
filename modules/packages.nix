@@ -17,5 +17,16 @@
     bash-language-server
     marksman
     wget
+    sd
+    duf
+    dust
+    procs
+    glow
+    nmap
+    yamllint
+    tcpdump
+    dnsutils
+    mtr
+    procps
   ];
 }

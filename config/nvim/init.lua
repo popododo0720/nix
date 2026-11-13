@@ -175,6 +175,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- go: 저장할 때 gopls 로 포맷 (gofumpt)
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
+  end,
+})
+
 pcall(function()
   require("nvim-treesitter.configs").setup({
     highlight = { enable = true },
@@ -199,6 +207,35 @@ if blink_ok then
 end
 
 local servers = {
+  rust_analyzer = {
+    settings = {
+      ["rust_analyzer"] = {
+        cargo = { sysrootSrc = vim.env.RUST_SRC_PATH },
+        check = { command = "clippy" }
+      },
+    },
+  },
+  gopls = {
+    settings = {
+      gopls = {
+        usePlaceholders = true,
+        completeUnimported = true,
+        staticcheck = true,
+        gofumpt = true,
+        analyses = {
+          unusedparams = true,
+          shadow = true,
+        },
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          constantValues = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+      },
+    },
+  },
   nil_ls = {},
   lua_ls = {
     settings = {

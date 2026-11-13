@@ -17,14 +17,14 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      homeConfigurations."popododo0720" =
+      homeConfigurations."root" =
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./home.nix
             {
-              home.username = "popododo0720";
-              home.homeDirectory = "/home/popododo0720";
+              home.username = "root";
+              home.homeDirectory = "/root";
               home.stateVersion = "26.05";
             }
           ];

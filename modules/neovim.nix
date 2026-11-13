@@ -35,6 +35,12 @@ let
       n: "cp -f ${grammarPlugins.${n}}/parser/*.so $out/parser/"
     ) grammars}
   '';
+
+  # nixpkgs 의 golangci-lint 는 go1.26 으로 빌드되어, go.mod 가 1.27 인 모듈을 거부한다.
+  # go1.27 로 다시 빌드해서 사용한다.
+  golangciLint = pkgs.golangci-lint.override {
+    buildGo126Module = pkgs.buildGo127Module;
+  };
 in
 {
   home.packages = with pkgs; [
@@ -48,7 +54,7 @@ in
     gopls
     gotools
     gofumpt
-    golangci-lint
+    golangciLint
     delve
   ];
 

@@ -293,6 +293,7 @@ end
 pcall(function()
   local lint = require("lint")
   lint.linters_by_ft = {
+    go = { "golangcilint" },
     yaml = { "yamllint" },
     terraform = { "tflint" },
     ["terraform-vars"] = { "tflint" },

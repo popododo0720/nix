@@ -175,9 +175,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- go: 저장할 때 gopls 로 포맷 (gofumpt)
+-- python: 타입 정보 hover 는 pyright 가 맡고, ruff 는 린트/포맷만 맡는다
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == "ruff" then
+      client.server_capabilities.hoverProvider = false
+    end
+  end,
+})
+
+-- go / python: 저장할 때 LSP 로 포맷 (gofumpt / ruff format)
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
+  pattern = { "*.go", "*.py" },
   callback = function()
     vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
   end,
@@ -245,7 +255,13 @@ local servers = {
       },
     },
   },
-  pyright = {},
+  -- import 정리는 ruff 가 맡으므로 pyright 쪽은 끈다
+  pyright = {
+    settings = {
+      pyright = { disableOrganizeImports = true },
+    },
+  },
+  ruff = {},
   yamlls = {},
   bashls = {},
   marksman = {},

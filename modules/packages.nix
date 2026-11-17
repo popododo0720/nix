@@ -13,6 +13,9 @@
     nixfmt
     lua-language-server
     pyright
+    # python: uv(버전/가상환경/의존성 관리), ruff(린트 + 포맷 + LSP)
+    uv
+    ruff
     yaml-language-server
     bash-language-server
     marksman

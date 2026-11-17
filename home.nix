@@ -35,5 +35,6 @@
     ./modules/git.nix
     ./modules/gh.nix
     ./modules/tmux.nix
+    ./modules/starship.nix
   ];
 }

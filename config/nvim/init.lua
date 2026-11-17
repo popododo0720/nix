@@ -175,6 +175,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- OxCaml 판 ocamllsp(1.24.0+ox)는 포맷 요청을 처리하면서도 초기화 때
+-- documentFormattingProvider = false 로 알린다. 그대로 두면 nvim 이 포맷 요청을
+-- 보내지 않으므로, 연결될 때 포맷 가능으로 고쳐준다.
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == "ocamllsp" then
+      client.server_capabilities.documentFormattingProvider = true
+    end
+  end,
+})
+
 -- go / ocaml: 저장할 때 LSP 로 포맷 (gofumpt / ocamlformat)
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.go", "*.ml", "*.mli" },

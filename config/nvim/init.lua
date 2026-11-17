@@ -185,9 +185,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- go / python: 저장할 때 LSP 로 포맷 (gofumpt / ruff format)
+-- go / python / rust: 저장할 때 LSP 로 포맷 (gofumpt / ruff format / rustfmt)
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = { "*.go", "*.py" },
+  pattern = { "*.go", "*.py", "*.rs" },
   callback = function()
     vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
   end,
@@ -219,7 +219,7 @@ end
 local servers = {
   rust_analyzer = {
     settings = {
-      ["rust_analyzer"] = {
+      ["rust-analyzer"] = {
         cargo = { sysrootSrc = vim.env.RUST_SRC_PATH },
         check = { command = "clippy" }
       },

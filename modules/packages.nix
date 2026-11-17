@@ -10,7 +10,7 @@
     btop
     lazygit
     nil
-    nixfmt-rfc-style
+    nixfmt
     lua-language-server
     pyright
     yaml-language-server

@@ -33,6 +33,7 @@
     ./modules/zoxide.nix
     ./modules/neovim.nix
     ./modules/git.nix
+    ./modules/jujutsu.nix
     ./modules/gh.nix
     ./modules/tmux.nix
     ./modules/starship.nix

@@ -27,8 +27,6 @@ let
     "gomod"
     "gosum"
     "gowork"
-    "ocaml"
-    "ocaml_interface"
   ];
 
   tsParsers = pkgs.runCommand "nvim-treesitter-parsers" { } ''

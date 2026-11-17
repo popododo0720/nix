@@ -16,11 +16,6 @@
             ;;
         esac
       fi
-
-      # opam (OCaml) 환경: oxcaml switch 의 ocaml, dune, ocamllsp, ocamlformat 을 PATH 에 올린다
-      if command -v opam >/dev/null 2>&1; then
-        eval "$(opam env 2>/dev/null)"
-      fi
     '';
   };
 

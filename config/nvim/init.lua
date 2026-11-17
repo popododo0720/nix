@@ -175,9 +175,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- go: 저장할 때 gopls 로 포맷 (gofumpt)
+-- go / ocaml: 저장할 때 LSP 로 포맷 (gofumpt / ocamlformat)
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
+  pattern = { "*.go", "*.ml", "*.mli" },
   callback = function()
     vim.lsp.buf.format({ async = false, timeout_ms = 2000 })
   end,
@@ -236,6 +236,8 @@ local servers = {
       },
     },
   },
+  -- ocamllsp 는 nix 가 아니라 opam(oxcaml switch) 것을 PATH 에서 찾는다
+  ocamllsp = {},
   nil_ls = {},
   lua_ls = {
     settings = {

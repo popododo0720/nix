@@ -15,19 +15,24 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      homeConfigurations."root" =
+      mkHome =
+        username: homeDirectory:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             ./home.nix
             {
-              home.username = "root";
-              home.homeDirectory = "/root";
+              home.username = username;
+              home.homeDirectory = homeDirectory;
               home.stateVersion = "26.05";
             }
           ];
         };
+    in
+    {
+      homeConfigurations = {
+        "root" = mkHome "root" "/root";
+        "ubuntu" = mkHome "ubuntu" "/home/ubuntu";
+      };
     };
 }

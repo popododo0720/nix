@@ -51,6 +51,7 @@ in
     clippy
     rustfmt
     rust-analyzer
+    cargo-generate
     gopls
     gotools
     gofumpt

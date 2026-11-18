@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, rustfmtNightly, ... }:
 let
   lib = pkgs.lib;
 
@@ -49,7 +49,7 @@ in
     rustc
     cargo
     clippy
-    rustfmt
+    rustfmtNightly
     rust-analyzer
     cargo-generate
     gopls
